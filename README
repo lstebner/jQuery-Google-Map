@@ -1,5 +1,11 @@
 Yeah, these are the comments found in the top of the plugin file :D
 
+TODO: 
+1. Add some examples and demos
+2. I noticed some weird spacing issues in the code that I will fix because that bugs me
+
+============================================================================================================
+
 	This plugin makes creating maps from the Google API V3 easier with the help of jQuery. It implements 
  	the basic features of displaying a map along with the ability to retrieve directions. 
 
