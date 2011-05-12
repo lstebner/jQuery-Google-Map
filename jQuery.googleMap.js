@@ -35,18 +35,18 @@
 	*
 	*   	infoBubbleContent: A string of content to put in the info bubble (can be full HTML)
 	*
-       *   	autoOpenInfo: If the info bubble should be opened immediately or not (bool)
+    *   	autoOpenInfo: If the info bubble should be opened immediately or not (bool)
 	*
-       *   	directions: An object containing info for providing directions
+    *   	directions: An object containing info for providing directions
 	*			showSteps: Whether or not the steps for the directions should be displayed (bool, default: true)
-       *   	    container: The ID of the container to put rendered directions into
-       *   	    from: The starting location for the directions
+    *   	    container: The ID of the container to put rendered directions into
+    *   	    from: The starting location for the directions
 	*				- Can be an address, latlng object or 'marker' to use the maps marker loc
-       *   	    to: The ending location for the directions
+    *   	    to: The ending location for the directions
 	*				- Can be an address, latlng object or 'marker' to use the maps marker loc
-       *   	    travelMode: The travel mode to pass when getting directions (default 'driving')
+    *   	    travelMode: The travel mode to pass when getting directions (default 'driving')
 	* 				- Types: driving | walking | biking
-       *   	
+    *   	
 	*   	data: Nothing should be passed as 'data' into this plugin. This area of the settings is
 	* 			used to store objects such as the map and geocoder.
 	*
@@ -63,6 +63,8 @@
 	*
 	*		- getDirections({ from:'address', to:'address' }): Get directions from/to somewhere
 	*
+	*       - getCenter: Returns an object containing the latitude and longitude that the map is
+	*                   currently centered on
 	*
 	*/
 	$.fn.googleMap = function(opts, args){
@@ -117,12 +119,21 @@
 				settings = defaults;
 				methods.updateSettings(opts);
 				
-				methods.getMap();
+				methods.getMap(opts);
+				
+				return $self;
 			},
 			//update settings
 			updateSettings: function(newSettings){
 				settings = $.extend(true, settings, newSettings);
 				$self.data('googleMap', settings);
+			},
+			//get the center of the map
+			getCenter: function(){
+			    return {
+			        latitude: settings.latitude,
+			        longiutde: settings.longitude
+			    };
 			},
 			//the big one, get the map
 			getMap: function(map_args){
@@ -186,6 +197,8 @@
 
 				//call update settings again with all the data objects in place now
                 methods.updateSettings( settings );
+                
+                return $self;
 			},
 			//display a marker
 			marker: function(pos){
@@ -202,7 +215,9 @@
                    });
 				
 				//add a click event to the marker
-                   google.maps.event.addListener(settings.data.marker, 'click', function(){ methods.markerClick(); });
+                google.maps.event.addListener(settings.data.marker, 'click', function(){ methods.markerClick(); });
+                
+                return $self;
 			},
 			//click event on marker
 			markerClick: function(){
@@ -215,6 +230,8 @@
 			    if ( settings.markerClick ){
 			        settings.markerClick();
 			    }
+			    
+			    return $self;
 			},
 			//get directions
 			getDirections: function(args){
@@ -268,6 +285,8 @@
 
 				//update settings with new directions stuff
 				methods.updateSettings(settings);
+				
+				return $self;
 			},
 			//set up the info bubble
 			infoBubble: function(args){
@@ -285,13 +304,15 @@
 
 				//update settings with info bubble
 				methods.updateSettings(settings);
+				
+				return $self;
 			}
 		};
 
 		//check for straight method call
 		if (typeof(opts) == 'string'){
 			if (opts in methods){
-				methods[opts](args);
+				return methods[opts](args);
 			}
 
 			return $self;
@@ -299,9 +320,10 @@
 		
 		//make sure google stuff is loaded before init
 		if (typeof(google) != 'undefined'){
-			methods.init(opts);
+			return methods.init(opts);
 		}
-
-		return $self;
+        else{
+		    return $self;
+	    }
 	}
 })(jQuery);
