@@ -2,11 +2,12 @@
 
 ## Description
 
-	This plugin makes creating maps from the Google API V3 easier with the help of jQuery. It implements 
- 	the basic features of displaying a map along with the ability to retrieve directions. 
+This plugin makes creating maps from the Google API V3 easier with the help of jQuery. It implements 
+the basic features of displaying a map along with the ability to retrieve directions. 
 
- 	Requires jQuery (http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js)
-	Requires the API to be loaded (http://maps.google.com/maps/api/js?sensor=set_to_true_or_false)
+## Requirements
+- jQuery
+- Google Maps API to be loaded (http://maps.google.com/maps/api/js?sensor=set_to_true_or_false)
 
 ## Options
 
