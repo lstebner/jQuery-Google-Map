@@ -68,6 +68,15 @@
 	*
 	*/
 	$.fn.googleMap = function(opts, args){
+		if (this.length == 0){
+			return false;
+		}
+		else if (this.length > 1){
+			return this.each(function(){
+				$(this).googleMap( opts, args );
+			});
+		}
+		
 		if (!opts){ opts = {}; }
 		var $self = this;
 		
@@ -311,7 +320,7 @@
 
 		//check for straight method call
 		if (typeof(opts) == 'string'){
-			if (opts in methods){
+			if ( methods.hasOwnProperty( opts ) ){
 				return methods[opts](args);
 			}
 
